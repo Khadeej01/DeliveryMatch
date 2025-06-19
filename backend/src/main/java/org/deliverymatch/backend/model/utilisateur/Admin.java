@@ -1,10 +1,12 @@
 package org.deliverymatch.backend.model.utilisateur;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
+@DiscriminatorValue("ADMIN")
 public class Admin extends User {
     public Admin() {
-        setRole("ROLE_ADMIN"); // Définit le rôle par défaut
+        // No need to setRole here, JPA will handle the discriminator
     }
 }

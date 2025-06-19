@@ -10,7 +10,7 @@ import org.deliverymatch.backend.model.utilisateur.User;
 import org.deliverymatch.backend.repository.UserRepository;
 import org.deliverymatch.backend.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,20 +20,23 @@ public class AuthService {
     private UserRepository userRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private JwtUtils jwtUtils;
 
     public UserDTO registerUser(RegisterUserDTO registerDTO) {
         User user;
-        switch (registerDTO.getRole()) {
+        switch (registerDTO.getRole().toUpperCase()) {
+            case "CONDUCTEUR":
             case "ROLE_CONDUCTEUR":
                 user = new Conducteur();
                 break;
+            case "EXPEDITEUR":
             case "ROLE_EXPEDITEUR":
                 user = new Expediteur();
                 break;
+            case "ADMIN":
             case "ROLE_ADMIN":
                 user = new Admin();
                 break;
@@ -45,7 +48,8 @@ public class AuthService {
         user.setPrenom(registerDTO.getPrenom());
         user.setEmail(registerDTO.getEmail());
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-        user.setRole(registerDTO.getRole());
+        // No setRole here!
+
         user = userRepository.save(user);
 
         UserDTO userDTO = new UserDTO();
@@ -53,7 +57,7 @@ public class AuthService {
         userDTO.setNom(user.getNom());
         userDTO.setPrenom(user.getPrenom());
         userDTO.setEmail(user.getEmail());
-        userDTO.setRole(user.getRole());
+        userDTO.setRole(user.getClass().getSimpleName().toUpperCase());
         return userDTO;
     }
 

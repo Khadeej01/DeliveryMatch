@@ -1,21 +1,17 @@
 package org.deliverymatch.backend.model.utilisateur;
 
-
-
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
+@DiscriminatorValue("CONDUCTEUR")
 public class Conducteur extends User {
-    private String vehiculeType; // Type de véhicule (ex: voiture, camion)
-    private double capaciteMax; // Capacité maximale en kg ou m³
-    private String licenceNumber; // Numéro de licence
+    private String vehiculeType;
+    private double capaciteMax;
+    private String licenceNumber;
 
-    // Constructeur par défaut (requis pour JPA)
-    public Conducteur() {
-        setRole("ROLE_CONDUCTEUR"); // Définit le rôle par défaut
-    }
+    public Conducteur() {}
 
-    // Getters et setters
     public String getVehiculeType() { return vehiculeType; }
     public void setVehiculeType(String vehiculeType) { this.vehiculeType = vehiculeType; }
     public double getCapaciteMax() { return capaciteMax; }

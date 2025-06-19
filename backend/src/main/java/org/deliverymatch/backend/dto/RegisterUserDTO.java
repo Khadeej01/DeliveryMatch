@@ -5,7 +5,7 @@ public class RegisterUserDTO {
     private String prenom;
     private String email;
     private String password;
-    private String role; // Ex: ROLE_CONDUCTEUR, ROLE_EXPEDITEUR, ROLE_ADMIN
+    private String role;
 
     // Constructeur par défaut
     public RegisterUserDTO() {}
