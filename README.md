@@ -54,22 +54,22 @@
 ## 🧪 Technologies utilisées
 
 ### Backend :
-- Java 17
+- Java 21
 - Spring Boot
 - Spring Data JPA
 - Spring Security
-- PostgreSQL / MySQL
+- MySQL 
 - Swagger / Postman
 
 ### Frontend :
 - Angular 18
-- Angular Material / Bootstrap / Tailwind CSS
+- Angular Material  / Tailwind CSS
 - Chart.js
 
 ### Autres :
 - Docker
 - JUnit 5 (tests unitaires)
-- UML (Diagrammes de séquence et de cas d’usage)
+- UML (Diagrammes de séquence et de cas d’usage et de classe)
 
 ---
 
