@@ -1,0 +1,22 @@
+<section class="team">
+  <h2>Notre équipe</h2>
+  <div class="team-members">
+    <div class="member-card" *ngFor="let member of teamMembers">
+      <img [src]="member.imageUrl" [alt]="member.name" />
+      <h3>{{ member.name }}</h3>
+      <h4>{{ member.role }}</h4>
+      <p>{{ member.description }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="values">
+  <h2>Nos valeurs</h2>
+  <div class="values-list">
+    <div class="value-card" *ngFor="let value of companyValues">
+      <div class="icon">{{ value.icon }}</div>
+      <h3>{{ value.title }}</h3>
+      <p>{{ value.description }}</p>
+    </div>
+  </div>
+</section>

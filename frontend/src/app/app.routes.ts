@@ -1,12 +1,11 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
+import { AboutComponent} from './shared/components/about/about.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  // { path: 'login', loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent) },
-  // { path: 'register', loadComponent: () => import('./features/auth/register/register.component').then(m => m.RegisterComponent) },
-  // { path: 'trajets', loadComponent: () => import('./pages/trajets/trajets.component').then(m => m.TrajetsComponent) },
-  // { path: 'demandes', loadComponent: () => import('./pages/demandes/demandes.component').then(m => m.DemandesComponent) },
-  // { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent) },
-  { path: '**', redirectTo: '' }
+  { path: '', component: HomeComponent, title: 'Accueil - DeliveryMatch' },
+  { path: 'about', component: AboutComponent, title: 'À Propos - DeliveryMatch' },
+
+  // Redirection pour les chemins non trouvés
+  { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
