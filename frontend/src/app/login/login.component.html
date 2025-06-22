@@ -1,0 +1,81 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h2>Connexion</h2>
+      <p>Connectez-vous à votre compte DeliveryMatch</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-group">
+          <i class="fas fa-envelope input-icon"></i>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="votre.email@exemple.com"
+            [class.invalid]="isFieldInvalid('email')"
+            class="form-control"
+          />
+        </div>
+        <div class="error-message" *ngIf="isFieldInvalid('email')">
+          {{ getErrorMessage('email') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <div class="input-group">
+          <i class="fas fa-lock input-icon"></i>
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            placeholder="Votre mot de passe"
+            [class.invalid]="isFieldInvalid('password')"
+            class="form-control"
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility()"
+          >
+            <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+        <div class="error-message" *ngIf="isFieldInvalid('password')">
+          {{ getErrorMessage('password') }}
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn btn-primary login-btn"
+          [disabled]="isLoading || loginForm.invalid"
+        >
+          <span *ngIf="!isLoading">Se connecter</span>
+          <span *ngIf="isLoading" class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            Connexion...
+          </span>
+        </button>
+      </div>
+
+      <div class="error-message global-error" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <div class="login-footer">
+        <p>
+          Pas encore de compte ?
+          <a routerLink="/register" class="link-primary">S'inscrire</a>
+        </p>
+        <p>
+          <a href="/forgot-password" class="link-secondary">Mot de passe oublié ?</a>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>

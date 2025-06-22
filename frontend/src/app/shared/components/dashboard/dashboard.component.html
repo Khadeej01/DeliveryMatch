@@ -1,0 +1,47 @@
+<div class="dashboard-layout" [class.sidebar-closed]="!isSidebarOpen">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="3" fill="none"/>
+          <path d="M12 20L18 26L28 14" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="brand-text">DeliveryMatch</span>
+      </div>
+      <button class="sidebar-toggle" (click)="toggleSidebar()" aria-label="Toggle sidebar">
+        <!-- Icon will be handled by CSS -->
+      </button>
+    </div>
+
+    <div class="user-profile">
+      <img [src]="user.avatar" alt="User Avatar" class="avatar">
+      <div class="user-info">
+        <span class="user-name">{{ user.name }}</span>
+        <span class="user-email">{{ user.email }}</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a *ngFor="let link of navLinks" [routerLink]="link.path" routerLinkActive="active" class="nav-link">
+        <span class="nav-icon" [attr.data-icon]="link.icon"></span>
+        <span class="nav-label">{{ link.label }}</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="#" class="nav-link">
+        <span class="nav-icon" data-icon="logout"></span>
+        <span class="nav-label">Déconnexion</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="content-wrapper">
+      <!-- Child routes will be rendered here -->
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

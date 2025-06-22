@@ -1,0 +1,89 @@
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <h1 class="page-title">Contactez-nous</h1>
+    <p class="page-subtitle">Nous sommes là pour répondre à toutes vos questions.</p>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section">
+  <div class="container contact-container">
+    <!-- Contact Form -->
+    <div class="contact-form-wrapper">
+      <h2 class="section-title">Envoyez-nous un message</h2>
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-group">
+          <label for="name">Nom complet</label>
+          <input type="text" id="name" formControlName="name" placeholder="John Doe">
+          <div *ngIf="isSubmitted && name?.invalid" class="error-message">
+            Le nom est requis.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Adresse e-mail</label>
+          <input type="email" id="email" formControlName="email" placeholder="john.doe@example.com">
+          <div *ngIf="isSubmitted && email?.invalid" class="error-message">
+            <span *ngIf="email?.errors?.['required']">L'e-mail est requis.</span>
+            <span *ngIf="email?.errors?.['email']">Veuillez entrer une adresse e-mail valide.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Sujet</label>
+          <input type="text" id="subject" formControlName="subject" placeholder="Sujet de votre message">
+          <div *ngIf="isSubmitted && subject?.invalid" class="error-message">
+            Le sujet est requis.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Votre message</label>
+          <textarea id="message" formControlName="message" rows="6" placeholder="Écrivez votre message ici..."></textarea>
+          <div *ngIf="isSubmitted && message?.invalid" class="error-message">
+            <span *ngIf="message?.errors?.['required']">Le message est requis.</span>
+            <span *ngIf="message?.errors?.['minlength']">Le message doit contenir au moins 10 caractères.</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="contactForm.invalid && isSubmitted">Envoyer le message</button>
+      </form>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="contact-info-wrapper">
+      <h2 class="section-title">Nos coordonnées</h2>
+      <p>N'hésitez pas à nous contacter directement ou à nous rendre visite.</p>
+
+      <div class="info-item">
+        <span class="info-icon">📍</span>
+        <div class="info-text">
+          <strong>Adresse</strong>
+          <p>123 Rue de la Logistique, 75001 Paris, France</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <span class="info-icon">✉️</span>
+        <div class="info-text">
+          <strong>Email</strong>
+          <p><a href="mailto:contact@deliverymatch.com">contactdeliverymatch.com</a></p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <span class="info-icon">📞</span>
+        <div class="info-text">
+          <strong>Téléphone</strong>
+          <p><a href="tel:+33123456789">+33 1 23 45 67 89</a></p>
+        </div>
+      </div>
+
+      <!-- Map Placeholder -->
+      <div class="map-placeholder">
+        <p>Carte interactive bientôt disponible</p>
+      </div>
+    </div>
+  </div>
+</section>
