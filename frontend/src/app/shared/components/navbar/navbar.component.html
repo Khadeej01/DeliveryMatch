@@ -2,31 +2,110 @@
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-brand">
-        <a routerLink="/" class="logo-link">
-          <div class="logo">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="20" cy="20" r="18" stroke="#3B82F6" stroke-width="3" fill="none"/>
-              <path d="M12 20L18 26L28 14" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M15 12L25 12L25 28" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <span class="brand-text">DeliveryMatch</span>
-          </div>
+        <a routerLink="/" class="brand-link">
+          <i class="fas fa-truck"></i>
+          <span class="brand-text">DeliveryMatch</span>
         </a>
       </div>
 
-      <div class="nav-menu" [class.active]="isMobileMenuOpen">
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Accueil</a>
-        <a routerLink="/about" routerLinkActive="active" class="nav-link">À propos</a>
-        <a routerLink="/services" routerLinkActive="active" class="nav-link">Services</a>
-        <a routerLink="/contact" routerLinkActive="active" class="nav-link">Contact</a>
+      <div class="nav-links" [class.active]="isMenuOpen">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">
+          <i class="fas fa-home"></i>
+          Accueil
+        </a>
+        <a routerLink="/about" routerLinkActive="active" class="nav-link">
+          <i class="fas fa-info-circle"></i>
+          À propos
+        </a>
+        <a routerLink="/contact" routerLinkActive="active" class="nav-link">
+          <i class="fas fa-envelope"></i>
+          Contact
+        </a>
+
+        <ng-container *ngIf="isAuthenticated">
+          <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+            <i class="fas fa-tachometer-alt"></i>
+            Tableau de bord
+          </a>
+
+          <ng-container *ngIf="hasRole('EXPEDITEUR')">
+            <a routerLink="/expediteur/colis" routerLinkActive="active" class="nav-link">
+              <i class="fas fa-box"></i>
+              Mes Colis
+            </a>
+            <a routerLink="/expediteur/demandes" routerLinkActive="active" class="nav-link">
+              <i class="fas fa-list"></i>
+              Mes Demandes
+            </a>
+          </ng-container>
+
+          <ng-container *ngIf="hasRole('CONDUCTEUR')">
+            <a routerLink="/conducteur/trajets" routerLinkActive="active" class="nav-link">
+              <i class="fas fa-route"></i>
+              Mes Trajets
+            </a>
+            <a routerLink="/conducteur/offres" routerLinkActive="active" class="nav-link">
+              <i class="fas fa-handshake"></i>
+              Mes Offres
+            </a>
+          </ng-container>
+
+          <ng-container *ngIf="hasRole('ADMIN')">
+            <a routerLink="/admin/users" routerLinkActive="active" class="nav-link">
+              <i class="fas fa-users"></i>
+              Utilisateurs
+            </a>
+            <a routerLink="/admin/statistics" routerLinkActive="active" class="nav-link">
+              <i class="fas fa-chart-bar"></i>
+              Statistiques
+            </a>
+          </ng-container>
+        </ng-container>
       </div>
 
-      <div class="nav-actions">
-        <button class="btn btn-outline">Se connecter</button>
-        <button class="btn btn-primary">S'inscrire</button>
+      <div class="nav-auth">
+        <div *ngIf="isAuthenticated" class="user-menu">
+          <div class="user-info" (click)="toggleUserMenu()">
+            <div class="user-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="user-details">
+              <span class="user-name">{{ getUserDisplayName() }}</span>
+              <span class="user-role">{{ getUserRoleDisplay() }}</span>
+            </div>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+          </div>
+
+          <div class="user-dropdown" [class.show]="isUserMenuOpen">
+            <a routerLink="/profile" class="dropdown-item">
+              <i class="fas fa-user-edit"></i>
+              Mon Profil
+            </a>
+            <a routerLink="/settings" class="dropdown-item">
+              <i class="fas fa-cog"></i>
+              Paramètres
+            </a>
+            <div class="dropdown-divider"></div>
+            <button (click)="logout()" class="dropdown-item logout-btn">
+              <i class="fas fa-sign-out-alt"></i>
+              Se déconnecter
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="!isAuthenticated" class="auth-buttons">
+          <a routerLink="/login" class="btn btn-outline">
+            <i class="fas fa-sign-in-alt"></i>
+            Se connecter
+          </a>
+          <a routerLink="/register" class="btn btn-primary">
+            <i class="fas fa-user-plus"></i>
+            S'inscrire
+          </a>
+        </div>
       </div>
 
-      <button class="mobile-menu-btn" (click)="toggleMobileMenu()" [class.active]="isMobileMenuOpen">
+      <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" [class.active]="isMenuOpen">
         <span></span>
         <span></span>
         <span></span>

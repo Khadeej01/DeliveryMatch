@@ -1,0 +1,240 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <h2>Inscription</h2>
+      <p>Créez votre compte DeliveryMatch</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+      <!-- Personal Information -->
+      <div class="form-section">
+        <h3>Informations personnelles</h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prenom">Prénom *</label>
+            <div class="input-group">
+              <i class="fas fa-user input-icon"></i>
+              <input
+                type="text"
+                id="prenom"
+                formControlName="prenom"
+                placeholder="Votre prénom"
+                [class.invalid]="isFieldInvalid('prenom')"
+                class="form-control"
+              />
+            </div>
+            <div class="error-message" *ngIf="isFieldInvalid('prenom')">
+              {{ getErrorMessage('prenom') }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="nom">Nom *</label>
+            <div class="input-group">
+              <i class="fas fa-user input-icon"></i>
+              <input
+                type="text"
+                id="nom"
+                formControlName="nom"
+                placeholder="Votre nom"
+                [class.invalid]="isFieldInvalid('nom')"
+                class="form-control"
+              />
+            </div>
+            <div class="error-message" *ngIf="isFieldInvalid('nom')">
+              {{ getErrorMessage('nom') }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <div class="input-group">
+            <i class="fas fa-envelope input-icon"></i>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              placeholder="votre.email@exemple.com"
+              [class.invalid]="isFieldInvalid('email')"
+              class="form-control"
+            />
+          </div>
+          <div class="error-message" *ngIf="isFieldInvalid('email')">
+            {{ getErrorMessage('email') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="telephone">Téléphone</label>
+          <div class="input-group">
+            <i class="fas fa-phone input-icon"></i>
+            <input
+              type="tel"
+              id="telephone"
+              formControlName="telephone"
+              placeholder="+33 6 12 34 56 78"
+              [class.invalid]="isFieldInvalid('telephone')"
+              class="form-control"
+            />
+          </div>
+          <div class="error-message" *ngIf="isFieldInvalid('telephone')">
+            {{ getErrorMessage('telephone') }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Role Selection -->
+      <div class="form-section">
+        <h3>Type de compte</h3>
+        <div class="role-selection">
+          <div
+            *ngFor="let role of roles"
+            class="role-option"
+            [class.selected]="selectedRole === role.value"
+            (click)="selectRole(role.value)"
+          >
+            <div class="role-icon">
+              <i [class]="getRoleIcon(role.value)"></i>
+            </div>
+            <div class="role-info">
+              <h4>{{ role.label }}</h4>
+              <p>{{ role.description }}</p>
+            </div>
+            <div class="role-check">
+              <i class="fas fa-check" *ngIf="selectedRole === role.value"></i>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" formControlName="role" />
+      </div>
+
+      <!-- Password Section -->
+      <div class="form-section">
+        <h3>Sécurité</h3>
+
+        <div class="form-group">
+          <label for="password">Mot de passe *</label>
+          <div class="input-group">
+            <i class="fas fa-lock input-icon"></i>
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              formControlName="password"
+              placeholder="Créez un mot de passe sécurisé"
+              [class.invalid]="isFieldInvalid('password')"
+              class="form-control"
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePasswordVisibility('password')"
+            >
+              <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </button>
+          </div>
+
+          <!-- Password Strength Indicator -->
+          <div class="password-strength" *ngIf="registerForm.get('password')?.value">
+            <div class="strength-bar">
+              <div
+                class="strength-fill"
+                [style.width.%]="getPasswordStrength().percentage"
+                [style.background-color]="getPasswordStrength().color"
+              ></div>
+            </div>
+            <span class="strength-text" [style.color]="getPasswordStrength().color">
+              {{ getPasswordStrength().strength }}
+            </span>
+          </div>
+
+          <div class="error-message" *ngIf="isFieldInvalid('password')">
+            {{ getErrorMessage('password') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirmer le mot de passe *</label>
+          <div class="input-group">
+            <i class="fas fa-lock input-icon"></i>
+            <input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              id="confirmPassword"
+              formControlName="confirmPassword"
+              placeholder="Confirmez votre mot de passe"
+              [class.invalid]="isFieldInvalid('confirmPassword')"
+              class="form-control"
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePasswordVisibility('confirmPassword')"
+            >
+              <i [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </button>
+          </div>
+          <div class="error-message" *ngIf="isFieldInvalid('confirmPassword')">
+            {{ getErrorMessage('confirmPassword') }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Terms and Conditions -->
+      <div class="form-section">
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              formControlName="acceptTerms"
+              class="checkbox-input"
+            />
+            <span class="checkmark"></span>
+            J'accepte les <a href="/terms" target="_blank">conditions d'utilisation</a> et la
+            <a href="/privacy" target="_blank">politique de confidentialité</a> *
+          </label>
+          <div class="error-message" *ngIf="isFieldInvalid('acceptTerms')">
+            Vous devez accepter les conditions d'utilisation
+          </div>
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div class="error-message global-error" *ngIf="errorMessage">
+        <i class="fas fa-exclamation-triangle"></i>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        [disabled]="isLoading"
+        class="btn btn-primary btn-block"
+      >
+        <span *ngIf="!isLoading">Créer mon compte</span>
+        <span *ngIf="isLoading" class="loading-spinner">
+          <i class="fas fa-spinner fa-spin"></i>
+          Création en cours...
+        </span>
+      </button>
+
+      <!-- Debug Info -->
+      <div class="debug-info" style="margin-top: 10px; font-size: 12px; color: #666;">
+        <p>Form valid: {{ registerForm.valid }}</p>
+        <p>Form invalid: {{ registerForm.invalid }}</p>
+        <p>Form errors: {{ registerForm.errors | json }}</p>
+        <p>Nom valid: {{ registerForm.get('nom')?.valid }}</p>
+        <p>Prenom valid: {{ registerForm.get('prenom')?.valid }}</p>
+        <p>Email valid: {{ registerForm.get('email')?.valid }}</p>
+        <p>Password valid: {{ registerForm.get('password')?.valid }}</p>
+        <p>ConfirmPassword valid: {{ registerForm.get('confirmPassword')?.valid }}</p>
+        <p>AcceptTerms valid: {{ registerForm.get('acceptTerms')?.valid }}</p>
+      </div>
+    </form>
+
+    <!-- Login Link -->
+    <div class="register-footer">
+      <p>Vous avez déjà un compte ? <a routerLink="/login" class="link">Se connecter</a></p>
+    </div>
+  </div>
+</div>
